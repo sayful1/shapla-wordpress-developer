@@ -1,13 +1,11 @@
 <?php
-/**
+/**!
  * Plugin Name: Shapla WordPress Developer
  * Plugin URI: https://github.com/sayful1/shapla-wordpress-developer
  * Description: A WordPress plugin, which helps WordPress developers develop.
  * Version: 1.0.0
  * Author: Sayful Islam
  * Author URI: https://sayfulislam.com
- * Requires at least: 4.4
- * Tested up to: 4.9
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,29 +16,33 @@ if ( ! class_exists( 'Shapla_WordPress_Developer' ) ) {
 
 	class Shapla_WordPress_Developer {
 
+		/**
+		 * @var self
+		 */
 		protected static $instance;
+
+		/**
+		 * @var array
+		 */
 		protected $config = array();
 
 		/**
-		 * @return Shapla_WordPress_Developer
+		 * Only one instance of the class can be loaded
+		 *
+		 * @return self
 		 */
 		public static function init() {
 
 			if ( is_null( self::$instance ) ) {
 				self::$instance = new self();
+
+				self::$instance->config = include 'config.php';
+
+				self::$instance->includes();
+				self::$instance->init_classes();
 			}
 
 			return self::$instance;
-		}
-
-		/**
-		 * Shapla_WordPress_Developer constructor.
-		 */
-		public function __construct() {
-			$this->config = include 'config.php';
-
-			$this->includes();
-			$this->init_classes();
 		}
 
 		/**
@@ -56,7 +58,9 @@ if ( ! class_exists( 'Shapla_WordPress_Developer' ) ) {
 		 */
 		private function init_classes() {
 			// Send all to mailtrap.io
-			new \Shapla\Developer\Core\MailTrap( $this->config );
+			\Shapla\Developer\Core\MailTrap::init( $this->config );
+
+			add_action( 'widgets_init', array( \Shapla\Developer\Core\MonsterWidget::class, 'register' ) );
 		}
 	}
 }

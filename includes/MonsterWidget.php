@@ -2,20 +2,9 @@
 
 namespace Shapla\Developer\Core;
 
-/**!
- * Plugin Name:       Monster Widget
- * Description:       A widget that allows for quick and easy testing of multiple widgets. Not intended for production use.
- * Version:           0.3
- * Author:            Automattic
- * Author URI:        http://automattic.com/
- * License:           GPLv2 or later
- */
-
-
-add_action( 'widgets_init', function () {
-	register_widget( new MonsterWidget );
-} );
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 class MonsterWidget extends \WP_Widget {
 
@@ -327,5 +316,12 @@ class MonsterWidget extends \WP_Widget {
 		$html = implode( "\n", $html );
 
 		return apply_filters( 'monster-widget-get-text', $html );
+	}
+
+	/**
+	 * Register current class as widget
+	 */
+	public static function register() {
+		register_widget( __CLASS__ );
 	}
 }

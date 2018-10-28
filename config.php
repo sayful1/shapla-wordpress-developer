@@ -1,6 +1,6 @@
 <?php
 
-$config = array(
+return array(
 	'mail' => array(
 		'host'     => 'smtp.mailtrap.io',
 		'port'     => 2525,
@@ -8,5 +8,3 @@ $config = array(
 		'password' => '7ff7b702b825a3',
 	),
 );
-
-return json_decode( json_encode( $config ), false );
