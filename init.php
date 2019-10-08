@@ -51,6 +51,7 @@ if ( ! class_exists( 'Shapla_WordPress_Developer' ) ) {
 		private function includes() {
 			include 'includes/MailTrap.php';
 			include 'includes/MonsterWidget.php';
+			include 'includes/JsonBasicAuth.php';
 		}
 
 		/**
